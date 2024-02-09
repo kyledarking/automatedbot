@@ -1,7 +1,7 @@
 const os = require('os');
 
 module.exports.config = {
- name: "uptime",
+ name: "ping",
  version: "1.0.2",
  role: 0,
  credits: "cliff",
