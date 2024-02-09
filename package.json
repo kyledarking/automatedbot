@@ -22,6 +22,7 @@
     "fs-extra": "^11.2.0",
     "https-proxy-agent": "^4.0.0",
     "javascript-obfuscator": "^4.1.0",
+    "moment-timezone": "^0.5.45",
     "mqtt": "^3.0.0",
     "node-cron": "^3.0.3",
     "node-fetch": "^3.2.6",
