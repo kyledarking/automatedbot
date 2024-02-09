@@ -31,7 +31,7 @@ module.exports.run = async function({
 			}
 			helpMessage += '\nEvent List:\n\n';
 			eventCommands.forEach((eventCommand, index) => {
-				helpMessage += `\t${index + 1}. 「 ${prefix}${eventCommand} 」\n`;
+				helpMessage += `\t${index + 1}. ╭─╮\n| ${prefix}${eventCommand}╰────────ꔪ \n`;
 			});
 			helpMessage += `\nPage ${page}/${Math.ceil(commands.length / pages)}. To view the next page, type '${prefix}help page number'. To view information about a specific command, type '${prefix}help command name'.`;
 			api.sendMessage(helpMessage, event.threadID, event.messageID);
