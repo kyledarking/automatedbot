@@ -69,7 +69,7 @@ module.exports.run = async function ({ api, event, message }) {
 
 		const stream = ytdl(videoUrl, { filter: "audioandvideo" });
 		const fileName = `${senderID}.mp4`;
-		const filePath = __dirname + `/cache/${fileName}`;
+		const filePath = __dirname + `/cache/randomVideo.mp4`;
 
 		stream.pipe(fs.createWriteStream(filePath));
 
