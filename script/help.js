@@ -27,12 +27,12 @@ module.exports.run = async function({
 			let end = start + pages;
 			let helpMessage = `🔴🟢🟡\n𝗖𝗢𝗠𝗠𝗔𝗡𝗗 𝗟𝗜𝗦𝗧:\n\n`;
 			for (let i = start; i < Math.min(end, commands.length); i++) {
-				helpMessage += `╭─╮\n|\t${i + 1}.  ${prefix}${commands[i]}\n╰────────ꔪ\n`;
+				helpMessage += `╭─╮\n|\t『 ${i + 1}.』  ${prefix}${commands[i]}\n╰────────ꔪ\n`;
 			}
 			helpMessage += '\n𝗘𝗩𝗘𝗡𝗧 𝗟𝗜𝗦𝗧:
 \n\n';
 			eventCommands.forEach((eventCommand, index) => {
-				helpMessage += `╭─╮\n|\t${index + 1}.  ${prefix}${eventCommand}\n╰────────ꔪ \n`;
+				helpMessage += `╭─────────╮\n|\t『 ${index + 1}.』  ${prefix}${eventCommand}\n╰─────────╯ \n`;
 			});
 			helpMessage += `\nPage ${page}/${Math.ceil(commands.length / pages)}. To view the next page, type '${prefix}help page number'. To view information about a specific command, type '${prefix}help command name'.`;
 			api.sendMessage(helpMessage, event.threadID, event.messageID);
@@ -41,13 +41,13 @@ module.exports.run = async function({
 			const pages = 999;
 			let start = (page - 1) * pages;
 			let end = start + pages;
-			let helpMessage = `Command List:\n\n`;
+			let helpMessage = `𝗖𝗢𝗠𝗠𝗔𝗡𝗗 𝗟𝗜𝗦𝗧:\n\n`;
 			for (let i = start; i < Math.min(end, commands.length); i++) {
-				helpMessage += `\t${i + 1}. 「 ${prefix}${commands[i]} 」\n`;
+				helpMessage += `\t${i + 1}. 『 ${prefix}${commands[i]} 』\n`;
 			}
-			helpMessage += '\nEvent List:\n\n';
+			helpMessage += '\n𝗘𝗩𝗘𝗡𝗧 𝗟𝗜𝗦𝗧:\n\n';
 			eventCommands.forEach((eventCommand, index) => {
-				helpMessage += `\t${index + 1}. 「 ${prefix}${eventCommand} 」\n`;
+				helpMessage += `\t${index + 1}. 『 ${prefix}${eventCommand} 』\n`;
 			});
 			helpMessage += `\nPage ${page} of ${Math.ceil(commands.length / pages)}`;
 			api.sendMessage(helpMessage, event.threadID, event.messageID);
