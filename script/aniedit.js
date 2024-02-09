@@ -4,7 +4,7 @@ const os = require("os");
 const yts = require("yt-search");
 const ytdl = require("@distube/ytdl-core");
 
-module.exports.sentVideos: [],
+module.exports.sentVideos = [],
 
 module.exports.config = {
  name: "aniedit",
@@ -12,9 +12,9 @@ module.exports.config = {
  credits: "𝗞𝘀𝗵𝗶𝘁𝗶𝘇 & 𝗦𝗞𝗬",
  role: 2,
  aliases: ["anime"],
-cooldown: 30,
-hasPrefix: false,
-	usage: "{p}aniedit",
+ cooldown: 30,
+ hasPrefix: false,
+ usage: "{p}aniedit",
 };
 
  module.exports.run = async function ({ api, event, message }) {
