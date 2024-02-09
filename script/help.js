@@ -27,11 +27,11 @@ module.exports.run = async function({
 			let end = start + pages;
 			let helpMessage = `Command List:\n\n`;
 			for (let i = start; i < Math.min(end, commands.length); i++) {
-				helpMessage += `\t${i + 1}. ╭─╮\n| ${prefix}${commands[i]} ╰────────ꔪ\n`;
+				helpMessage += `╭─╮\n|\t${i + 1}.  ${prefix}${commands[i]}\n╰────────ꔪ\n`;
 			}
 			helpMessage += '\nEvent List:\n\n';
 			eventCommands.forEach((eventCommand, index) => {
-				helpMessage += `\t${index + 1}. ╭─╮\n| ${prefix}${eventCommand}╰────────ꔪ╰────────ꔪ \n`;
+				helpMessage += `╭─╮\n|\t${index + 1}.  ${prefix}${eventCommand}\n╰────────ꔪ \n`;
 			});
 			helpMessage += `\nPage ${page}/${Math.ceil(commands.length / pages)}. To view the next page, type '${prefix}help page number'. To view information about a specific command, type '${prefix}help command name'.`;
 			api.sendMessage(helpMessage, event.threadID, event.messageID);
