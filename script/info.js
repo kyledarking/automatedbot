@@ -7,7 +7,7 @@ module.exports.config = {
 	cooldown: 5,
 	hasPrefix: false,
 };
-module.exports.run = async function({ api, event, args, , client, Users, Threads, __GLOBAL, Currencies }) {
+module.exports.run = async function({ api, event, args, client, Users, Threads, __GLOBAL, Currencies }) {
 	let time = process.uptime();
 	let years = Math.floor(time / (60 * 60 * 24 * 365));
 	let months = Math.floor((time % (60 * 60 * 24 * 365)) / (60 * 60 * 24 * 30));
