@@ -10,7 +10,7 @@ module.exports.config = {
 	name: "aniedit",
 	version: "1.0.2",
 	credits: "𝗞𝘀𝗵𝗶𝘁𝗶𝘇 & 𝗦𝗞𝗬",
-	role: 2,
+	role: 0,
 	aliases: ["anime"],
 	cooldown: 30,
 	hasPrefix: false,

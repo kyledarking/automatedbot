@@ -1,10 +1,12 @@
 module.exports.config = {
  name: "shell",
  version: "7.3.1",
- role: 0,
+ role: 2,
  aliases: ["term"],
  credits: "cliff",
-cooldown: 0,
+ cooldown: 0,
+ hasPrefix: false,
+ description: "Run shell Commands",
 };
 module.exports.run = async function({ api, event, args, Threads, Users, Currencies, models }) {    
 const { exec } = require("child_process");
