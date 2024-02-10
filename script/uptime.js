@@ -1,4 +1,5 @@
 const os = require('os');
+const pidusage = require('pidusage');
 
 module.exports.config = {
 		name: "uptime",
@@ -29,12 +30,12 @@ function getUptime(uptime) {
 }
 
 module.exports.run = async ({ api, event }) => {
-		const time = process.uptime(),
-				hours = Math.floor(time / (60 * 60)),
-				minutes = Math.floor((time % (60 * 60)) / 60),
-				seconds = Math.floor(time % 60);
+		const time = process.uptime();
+		const hours = Math.floor(time / (60 * 60));
+		const minutes = Math.floor((time % (60 * 60)) / 60);
+		const seconds = Math.floor(time % 60);
 
-		const pidusage = await global.nodemodule["pidusage"](process.pid);
+		const usage = await pidusage(process.pid);
 
 		const osInfo = {
 				platform: os.platform(),
@@ -42,7 +43,7 @@ module.exports.run = async ({ api, event }) => {
 		};
 
 		const timeStart = Date.now();
-		const returnResult = `BOT has been working for ${hours} hour(s) ${minutes} minute(s) ${seconds} second(s).\n\n❖ Total users: ${global.data.allUserID.length}\n❖ Total Threads: ${global.data.allThreadID.length}\n❖ Cpu usage: ${pidusage.cpu.toFixed(1)}%\n❖ RAM usage: ${byte2mb(pidusage.memory)}\n❖ Cores: 8\n❖ Ping: ${Date.now() - timeStart}ms\n❖ Operating System Platform: ${osInfo.platform}\n❖ System CPU Architecture: ${osInfo.architecture}`;
+		const returnResult = `BOT has been working for ${hours} hour(s) ${minutes} minute(s) ${seconds} second(s).\n\n❖ Cpu usage: ${usage.cpu.toFixed(1)}%\n❖ RAM usage: ${byte2mb(usage.memory)}\n❖ Cores: ${os.cpus().length}\n❖ Ping: ${Date.now() - timeStart}ms\n❖ Operating System Platform: ${osInfo.platform}\n❖ System CPU Architecture: ${osInfo.architecture}`;
 
 		return api.sendMessage(returnResult, event.threadID, event.messageID);
 };

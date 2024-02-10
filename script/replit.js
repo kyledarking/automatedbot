@@ -7,6 +7,7 @@ module.exports.config = {
 		credits: "Hazeyy", //modify by cliff
 		description: "Use Replit AI for various tasks",
 		usages: "Replit AI",
+	  hasPrefix: false,
 		cooldown: 0,
 	  aliases: ["replit", "rep"]
 };
