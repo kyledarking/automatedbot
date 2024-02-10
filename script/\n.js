@@ -7,15 +7,20 @@ const getFBInfo = require('@xaviabot/fb-downloader');
 module.exports.config = {
 		name: "autodownload",
 		version: "2.0.4",
+		credits: "cliff",
+		hasPrefix: false,
+		description: "Download videos from Facebook and TikTok links",
+		usages: "",
+		aliases: [],
 };
 
-module.exports.handleEvent = async function ({ api, event, body, threadID, messageID }) {
+module.exports.run = async function ({ api, event, body }) {
 		if (event.body !== null) {
 				const facebookLinkRegex = /https:\/\/www\.facebook\.com\/\S+/;
 				if (facebookLinkRegex.test(event.body)) {
 						try {
 								const fbInfo = await getFBInfo(event.body);
-								let fbResponse = await axios.get(encodeURI(fbInfo.sd), { responseType: 'arraybuffer' });
+								const fbResponse = await axios.get(encodeURI(fbInfo.sd), { responseType: 'arraybuffer' });
 								fs.writeFileSync('./video.mp4', Buffer.from(fbResponse.data, 'arraybuffer'));
 								api.sendMessage({ body: autodownfb, attachment: fs.createReadStream('./video.mp4') }, event.threadID, () => fs.unlinkSync('./video.mp4'));
 						} catch (error) {
@@ -27,20 +32,19 @@ module.exports.handleEvent = async function ({ api, event, body, threadID, messa
 		const tiktokRegex = /https:\/\/(www\.|vt\.)?tiktok\.com\//;
 		if (tiktokRegex.test(body)) {
 				api.sendMessage('📥', event.messageID, () => {}, true);
-				axios.get(body)
-						.then(async (response) => {
-								const videoUrl = response.data.match(/"url":"([^"]+)"/)[1];
-								const tiktokResponse = await axios.get(videoUrl, { responseType: 'stream' });
-								const filename = 'TikTok-' + Date.now() + '.mp4';
-								const tiktokStream = fs.createWriteStream('./' + filename);
-								tiktokResponse.data.pipe(tiktokStream);
-								tiktokStream.on('finish', () => {
-										console.info('Downloaded video file.');
-										api.sendMessage({ body: autodowntiktok, attachment: fs.createReadStream('./' + filename) }, event.threadID, () => fs.unlinkSync('./' + filename));
-								});
-						})
-						.catch(error => {
-								api.sendMessage('Error when trying to download the TikTok video: ' + error.message, event.threadID, event.messageID);
+				try {
+						const response = await axios.get(body);
+						const videoUrl = response.data.match(/"url":"([^"]+)"/)[1];
+						const tiktokResponse = await axios.get(videoUrl, { responseType: 'stream' });
+						const filename = 'TikTok-' + Date.now() + '.mp4';
+						const tiktokStream = fs.createWriteStream('./' + filename);
+						tiktokResponse.data.pipe(tiktokStream);
+						tiktokStream.on('finish', () => {
+								console.info('Downloaded video file.');
+								api.sendMessage({ body: autodowntiktok, attachment: fs.createReadStream('./' + filename) }, event.threadID, () => fs.unlinkSync('./' + filename));
 						});
+				} catch (error) {
+						api.sendMessage('Error when trying to download the TikTok video: ' + error.message, event.threadID, event.messageID);
+				}
 		}
 };

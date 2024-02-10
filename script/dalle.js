@@ -16,7 +16,7 @@ module.exports.config = {
 	aliases: ["dalle"],
 };
 
-module.exports.run = async function ({ api, event, args }) {
+module. exports. run = async function ({ api, event, args }) {
 	const keySearch = args.join(" ");
 	const indexOfHyphen = keySearch.indexOf('-');
 	const keySearchs = indexOfHyphen !== -1 ? keySearch.substr(0, indexOfHyphen).trim() : keySearch.trim();
