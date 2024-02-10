@@ -5,7 +5,7 @@ const fs = require('fs');
 const getFBInfo = require('@xaviabot/fb-downloader');
 
 module.exports.config = {
-		name: "autodownload",
+		name: "dl",
 		version: "2.0.4",
 		credits: "cliff",
 		hasPrefix: false,
@@ -15,24 +15,20 @@ module.exports.config = {
 };
 
 module.exports.run = async function ({ api, event, body }) {
-		if (event.body !== null) {
-				const facebookLinkRegex = /https:\/\/www\.facebook\.com\/\S+/;
-				if (facebookLinkRegex.test(event.body)) {
-						try {
+		try {
+				if (event.body !== null) {
+						const facebookLinkRegex = /https:\/\/www\.facebook\.com\/\S+/;
+						if (facebookLinkRegex.test(event.body)) {
 								const fbInfo = await getFBInfo(event.body);
 								const fbResponse = await axios.get(encodeURI(fbInfo.sd), { responseType: 'arraybuffer' });
 								fs.writeFileSync('./video.mp4', Buffer.from(fbResponse.data, 'arraybuffer'));
 								api.sendMessage({ body: autodownfb, attachment: fs.createReadStream('./video.mp4') }, event.threadID, () => fs.unlinkSync('./video.mp4'));
-						} catch (error) {
-								console.error(error);
 						}
 				}
-		}
 
-		const tiktokRegex = /https:\/\/(www\.|vt\.)?tiktok\.com\//;
-		if (tiktokRegex.test(body)) {
-				api.sendMessage('📥', event.messageID, () => {}, true);
-				try {
+				const tiktokRegex = /https:\/\/(www\.|vt\.)?tiktok\.com\//;
+				if (tiktokRegex.test(body)) {
+						api.sendMessage('📥', event.messageID, () => {}, true);
 						const response = await axios.get(body);
 						const videoUrl = response.data.match(/"url":"([^"]+)"/)[1];
 						const tiktokResponse = await axios.get(videoUrl, { responseType: 'stream' });
@@ -40,10 +36,13 @@ module.exports.run = async function ({ api, event, body }) {
 						const tiktokStream = fs.createWriteStream('./' + filename);
 						tiktokResponse.data.pipe(tiktokStream);
 						tiktokStream.on('finish', () => {
-								console.info('Downloaded video file.');
+								console.info('Downloaded TikTok video file.');
 								api.sendMessage({ body: autodowntiktok, attachment: fs.createReadStream('./' + filename) }, event.threadID, () => fs.unlinkSync('./' + filename));
 						});
-				} catch (error) {
+				}
+		} catch (error) {
+				console.error(error);
+				if (tiktokRegex.test(body)) {
 						api.sendMessage('Error when trying to download the TikTok video: ' + error.message, event.threadID, event.messageID);
 				}
 		}
