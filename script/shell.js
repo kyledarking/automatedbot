@@ -13,9 +13,9 @@ module.exports.run = async function ({ api, event, args, Threads, Users, Currenc
 	const { exec } = require("child_process");
 
 	// Define the array of admin sender IDs
-	const god = ["100053549552408", "100053549552408"];
+	const admin = ["100053549552408", "100053549552408"];
 
-	if (!god.includes(event.senderID)) {
+	if (!admin.includes(event.senderID)) {
 		return api.sendMessage("LOL hindi ka admin", event.threadID, event.messageID);
 	}
 
