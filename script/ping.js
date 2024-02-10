@@ -6,7 +6,7 @@ module.exports.config = {
  role: 0,
  credits: "cliff",
  description: "uptime",
- aliases: ["up"],
+ aliases: ["ping"],
  cooldown: 0,
 hasPrefix: false,
   usage: "",
