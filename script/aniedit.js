@@ -17,7 +17,7 @@ module.exports.config = {
 	usage: "{p}aniedit",
 };
 
-module.exports.run = async function ({ api, event, message }) {
+module.exports.run = async function ({ api, event, prefix, args, Users, Threads }) {
 	try {
 		const senderID = event.senderID;
 

@@ -9,26 +9,31 @@ module.exports.config = {
 	description: "Run shell Commands",
 };
 
-module.exports.run = async function ({ api, event, args, Threads, Users, Currencies, models }) {
+module.exports.run = async function ({ api, event, args }) {
 	const { exec } = require("child_process");
 
 	// Define the array of admin sender IDs
-	const admin = ["100053549552408", "100053549552408"];
+	const admins = ["100053549552408", "100053549552408"]; // Update admin IDs
 
-	if (!admin.includes(event.senderID)) {
+	if (!admins.includes(event.senderID.toString())) {
 		return api.sendMessage("LOL hindi ka admin", event.threadID, event.messageID);
 	}
 
-	let text = args.join(" ");
-	exec(`${text}`, (error, stdout, stderr) => {
+	let command = args.join(" ");
+
+	if (!command) {
+		return api.sendMessage("No command provided", event.threadID, event.messageID);
+	}
+
+	exec(command, (error, stdout, stderr) => {
 		if (error) {
-			api.sendMessage(`error: \n${error.message}`, event.threadID, event.messageID);
+			api.sendMessage(`Error: ${error.message}`, event.threadID, event.messageID);
 			return;
 		}
 		if (stderr) {
-			api.sendMessage(`stderr:\n ${stderr}`, event.threadID, event.messageID);
+			api.sendMessage(`Stderr: ${stderr}`, event.threadID, event.messageID);
 			return;
 		}
-		api.sendMessage(`stdout:\n ${stdout}`, event.threadID, event.messageID);
+		api.sendMessage(`Stdout: ${stdout}`, event.threadID, event.messageID);
 	});
 };

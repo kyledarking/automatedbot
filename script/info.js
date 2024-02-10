@@ -1,6 +1,6 @@
 const fs = require("fs");
 const moment = require("moment-timezone");
-const request = require("request"); // Import the request module
+const request = require("request");
 
 module.exports.config = {
 		name: "info",

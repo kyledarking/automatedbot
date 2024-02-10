@@ -9,21 +9,26 @@ module.exports.config = {
 };
 
 module.exports.run = async function ({ api, event, args, Users }) {
-	let { threadID, senderID, messageID } = event;
-	let uid = senderID; // Default to the sender's ID if no specific condition is met
+	let { threadID, messageID } = event;
+	let uid = event.senderID; // Default to the sender's ID if no specific condition is met
 
-	if (!args[0]) {
-		uid = senderID;
-	}
-
-	if (event.type === "message_reply") {
+	if (args.length === 0) {
+		// If no arguments provided, default to sender's ID
+		uid = event.senderID;
+	} else if (event.type === "message_reply") {
+		// If the message is a reply, get the sender's ID from the replied message
 		uid = event.messageReply.senderID;
-	}
-
-	if (args.join(" ").indexOf("@") !== -1) {
-		uid = Object.keys(event.mentions)[0];
+	} else if (args.join(" ").includes("@")) {
+		// If the message contains a mention (@), get the ID of the mentioned user
+		const mention = args.find(arg => arg.startsWith("@"));
+		if (mention) {
+			const mentionedUserID = Object.keys(event.mentions)[0];
+			if (mentionedUserID) {
+				uid = mentionedUserID;
+			}
+		}
 	}
 
 	// Send the user ID as a message
-	await api.sendMessage(uid, threadID, messageID);
+	await api.sendMessage(`User ID: ${uid}`, threadID, messageID);
 };
